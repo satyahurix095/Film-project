@@ -133,6 +133,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="detials" element={<Detials />} />
         </Routes>
       </div>
       <div className="App">
@@ -164,6 +165,26 @@ function Home() {
   );
 }
 
+function Detials() {
+    return (
+      <>
+      <Movie />
+      <nav>
+        <Link to="/">Home</Link>
+      </nav>
+      </>
+    );
+}
+
+
+
+
+
+
+
+
+
+
 function About() {
   return (
     <>
@@ -180,6 +201,7 @@ function About() {
 
 function Movie({ name, poster, rating, summary }) {
   const [setDisplay, setNotDisplay] = useState(true);
+  const [setDetials, setNotDetials] = useState(true);
   return (
     <div className="film-container">
       <img src={poster} alt={name} />
@@ -193,10 +215,17 @@ function Movie({ name, poster, rating, summary }) {
       >
         Toggle
       </button>{" "}
-      <button>Detials</button>
+      <button onClick={() => {
+          setNotDetials(setDisplay == true ? false : true);
+        }}>Detials</button>
       {setDisplay == false ? <p>{summary}</p> : " "}
+      {setDetials == false ? <p>{<Detials />}</p> : " "}
     </div>
   );
 }
+
+
+
+
 
 //export default App
