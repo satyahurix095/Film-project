@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import "./App.css";
 
 export default function App() {
@@ -243,7 +244,7 @@ function Movie({ name, poster, rating, summary , id }) {
           sethide(hide == true ? false : true);
         }}
       >
-        Toggle
+        Toggle {hide ? <ExpandMoreIcon /> : <ExpandLessIcon />}
       </button>{" "}
       <IconButton
         aria-label="details"
