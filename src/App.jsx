@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
+
 import "./App.css";
 
 export default function App() {
@@ -133,13 +138,16 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="detials" element={<Detials />} />
+          <Route path="/movies/:id" 
+          element={<MovieDetials />} 
+          />
         </Routes>
       </div>
       <div className="App">
         {movieList.map((person, index) => (
           <Movie
             key={index}
+            id={index}
             name={person.name}
             poster={person.poster}
             rating={person.rating}
@@ -165,14 +173,36 @@ function Home() {
   );
 }
 
-function Detials() {
+function MovieDetials({movielist}) {
+  const navigate = useNavigate();
+  const {id} = useParams();
+  const abc = movielist[id];
     return (
-      <>
-      <Movie />
-      <nav>
-        <Link to="/">Home</Link>
-      </nav>
-      </>
+      <div className="Movie">
+      <iframe
+        width="1311"
+        height="649"
+        src="https://www.youtube.com/embed/OKBMCL-frPU"
+        title="VIKRAM - Official Trailer | Kamal Haasan | VijaySethupathi, FahadhFaasil | LokeshKanagaraj | Anirudh"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+      <div className="spec">
+        <h2>{abc.name}</h2>
+        <p> ⭐ {abc.rating}</p>
+      </div>
+
+      <p>{abc.summary}</p>
+      <IconButton
+        aria-label="Go back"
+        onClick={() => navigate(-1)}
+        sx={{ color: "blue" }} // Custom style to set the color to blue
+      >
+        <ArrowBackIcon />
+      </IconButton>
+    
+    </div>
     );
 }
 
@@ -199,27 +229,30 @@ function About() {
   );
 }
 
-function Movie({ name, poster, rating, summary }) {
-  const [setDisplay, setNotDisplay] = useState(true);
-  const [setDetials, setNotDetials] = useState(true);
+function Movie({ name, poster, rating, summary , id }) {
+  const [hide, sethide] = useState(true);
+  const navigate = useNavigate();
   return (
     <div className="film-container">
       <img src={poster} alt={name} />
       <div className="title-bar">
-        <h2>{name}</h2> <h3>⭐{rating}</h3>
+        <h2>{name}- {id}</h2> <h3>⭐{rating}</h3>
       </div>
       <button
         onClick={() => {
-          setNotDisplay(setDisplay == true ? false : true);
+          sethide(hide == true ? false : true);
         }}
       >
         Toggle
       </button>{" "}
-      <button onClick={() => {
-          setNotDetials(setDisplay == true ? false : true);
-        }}>Detials</button>
-      {setDisplay == false ? <p>{summary}</p> : " "}
-      {setDetials == false ? <p>{<Detials />}</p> : " "}
+      <IconButton
+        aria-label="details"
+        onClick={() => navigate("/movies/" + id)}
+      >
+         <InfoIcon /> 
+      </IconButton>
+      {hide == false ? <p>{summary}</p> : " "}
+      
     </div>
   );
 }
@@ -227,5 +260,3 @@ function Movie({ name, poster, rating, summary }) {
 
 
 
-
-//export default App
