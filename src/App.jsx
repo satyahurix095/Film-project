@@ -139,9 +139,15 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="/movies/:id" 
+           {/* <Route path="/movies/:id" 
           element={<MovieDetials />} 
-          />
+          />  */}
+           <Route
+          path="/movies/:id"
+          element={<MovieDetials movielist={movieList} />}
+        />
+        
+        <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
       <div className="App">
@@ -159,7 +165,9 @@ export default function App() {
     </div>
   );
 }
-
+function PageNotFound() {
+  return <h1>404 error Page not found</h1>;
+}
 function Home() {
   return (
     <>
@@ -173,40 +181,6 @@ function Home() {
     </>
   );
 }
-
-function MovieDetials({movielist}) {
-  const navigate = useNavigate();
-  const {id} = useParams();
-  const abc = movielist[id];
-    return (
-      <div className="Movie">
-      <iframe
-        width="1311"
-        height="649"
-        src="https://www.youtube.com/embed/OKBMCL-frPU"
-        title="VIKRAM - Official Trailer | Kamal Haasan | VijaySethupathi, FahadhFaasil | LokeshKanagaraj | Anirudh"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
-      <div className="spec">
-        <h2>{abc.name}</h2>
-        <p> ⭐ {abc.rating}</p>
-      </div>
-
-      <p>{abc.summary}</p>
-      <IconButton
-        aria-label="Go back"
-        onClick={() => navigate(-1)}
-        sx={{ color: "blue" }} // Custom style to set the color to blue
-      >
-        <ArrowBackIcon />
-      </IconButton>
-    
-    </div>
-    );
-}
-
 
 
 
@@ -257,6 +231,41 @@ function Movie({ name, poster, rating, summary , id }) {
     </div>
   );
 }
+
+function MovieDetials({movielist}) {
+  const navigate = useNavigate();
+  const {id} = useParams();
+  const abc = movielist[id];
+    return (
+      <div className="Movie">
+      <iframe
+        width="1311"
+        height="649"
+        src="https://www.youtube.com/embed/OKBMCL-frPU"
+        title="VIKRAM - Official Trailer | Kamal Haasan | VijaySethupathi, FahadhFaasil | LokeshKanagaraj | Anirudh"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+      <div className="title-bar">
+        <h2>{abc.name}</h2>
+        <p> ⭐ {abc.rating}</p>
+      </div>
+
+      <p>{abc.summary}</p>
+      <IconButton
+        aria-label="Go back"
+        onClick={() => navigate(-1)}
+        sx={{ color: "blue" }} // Custom style to set the color to blue
+      >
+        <ArrowBackIcon />
+      </IconButton>
+    
+    </div>
+    );
+}
+
+
 
 
 
